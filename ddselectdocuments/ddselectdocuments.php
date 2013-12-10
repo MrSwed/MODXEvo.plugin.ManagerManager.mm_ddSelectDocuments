@@ -109,7 +109,7 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 '.includeCss($widgetDir.'ddselectdocuments.css').'
 '.includeJs($pluginDir.'js/jquery.ddTools-1.8.1.min.js', 'js', 'jquery.ddTools', '1.8.1').'
 '.includeJs($pluginDir.'js/jquery-ui-1.10.3.min.js', 'js', 'jquery-ui', '1.10.3').'
-'.includeJs($widgetDir.'jquery.ddMultipleInput-1.1.min.js', 'js', 'jquery.ddMultipleInput', '1.1').'
+'.includeJs($widgetDir.'jquery.ddMultipleInput-1.2.min.js', 'js', 'jquery.ddMultipleInput', '1.2').'
 		';
 
 		foreach ($tvs as $tv){
