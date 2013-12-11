@@ -1,12 +1,13 @@
 <?php
-/** 
+/**
  * mm_ddSelectDocuments
- * @version 1.1b (2013-08-09)
+ * @version 1.2 (2013-12-11)
  * 
  * @desc A widget for ManagerManager that makes selection of documents ids easier.
  * 
  * @uses ManagerManager 0.6.
- *
+ * @uses ddTools 0.10.
+ * 
  * @param $tvs {comma separated string} - TVs names that the widget is applied to. @required
  * @param $roles {comma separated string} - Roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
  * @param $templates {comma separated string} - Templates IDs for which the widget is applying (empty value means the widget is applying to all templates). Default: ''.
@@ -19,7 +20,7 @@
  * @event OnDocFormPrerender
  * @event OnDocFormRender
  * 
- * @link http://code.divandesign.biz/modx/mm_ddselectdocuments/1.1b
+ * @link http://code.divandesign.biz/modx/mm_ddselectdocuments/1.2
  * 
  * @copyright 2013, DivanDesign
  * http://www.DivanDesign.ru
@@ -115,7 +116,7 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 		$docs = ddGetDocs(explode(',', $parentIds), $filter, $depth, $labelMask, $fields);
 		
 		if (count($docs) == 0){return;}
-
+		
 		if (version_compare(PHP_VERSION, '5.4.0') >= 0){
 			$jsonDocs = json_encode($docs, JSON_UNESCAPED_UNICODE);
 		}else{
@@ -128,18 +129,19 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 				json_encode($docs)
 			);
 		}
-
-		$output .= "// ---------------- mm_ddSelectDocuments :: Begin ------------- \n";
+		
+		$output .= "//---------- mm_ddSelectDocuments :: Begin -----\n";
 		
 		foreach ($tvs as $tv){
-			$output .= '
+			$output .=
+'
 $j("#tv'.$tv['id'].'").ddMultipleInput({source: '.$jsonDocs.', max: '.$max.'});
-			';
+';
 		}
-
-		$output .= "\n// ---------------- mm_ddSelectDocuments :: End -------------";
-
-		$e->output($output."\n");
+		
+		$output .= "//---------- mm_ddSelectDocuments :: End -----\n";
+		
+		$e->output($output);
 	}
 }
 ?>
