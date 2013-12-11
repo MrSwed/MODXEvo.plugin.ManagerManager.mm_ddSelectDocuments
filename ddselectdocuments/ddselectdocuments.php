@@ -116,24 +116,24 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 		
 		if (count($docs) == 0){return;}
 
+		if (version_compare(PHP_VERSION, '5.4.0') >= 0){
+			$jsonDocs = json_encode($docs, JSON_UNESCAPED_UNICODE);
+		}else{
+			$jsonDocs = preg_replace_callback(
+				'/\\\\u([0-9a-f]{4})/i',
+				function ($matches){
+					$sym = mb_convert_encoding(pack('H*', $matches[1]), 'UTF-8', 'UTF-16');
+					return $sym;
+				},
+				json_encode($docs)
+			);
+		}
+
 		$output .= "// ---------------- mm_ddSelectDocuments :: Begin ------------- \n";
-
+		
 		foreach ($tvs as $tv){
-			if (version_compare(PHP_VERSION, '5.4.0') >= 0){
-				$jsonString = json_encode($docs, JSON_UNESCAPED_UNICODE);
-			}else{
-				$jsonString = preg_replace_callback(
-					'/\\\\u([0-9a-f]{4})/i',
-					function ($matches){
-						$sym = mb_convert_encoding(pack('H*', $matches[1]), 'UTF-8', 'UTF-16');
-						return $sym;
-					},
-					json_encode($docs)
-				);
-			}
-
 			$output .= '
-$j("#tv'.$tv['id'].'").ddMultipleInput({source: '.$jsonString.', max: '.$max.'});
+$j("#tv'.$tv['id'].'").ddMultipleInput({source: '.$jsonDocs.', max: '.$max.'});
 			';
 		}
 
