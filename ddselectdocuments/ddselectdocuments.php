@@ -5,7 +5,7 @@
  * 
  * @desc A widget for ManagerManager that makes selection of documents ids easier.
  * 
- * @uses ManagerManager 0.5.1.
+ * @uses ManagerManager 0.6.
  *
  * @param $tvs {comma separated string} - TVs names that the widget is applied to. @required
  * @param $roles {comma separated string} - Roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
@@ -37,9 +37,9 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 		$pluginDir = $modx->config['site_url'].'assets/plugins/managermanager/';
 		$widgetDir = $pluginDir.'widgets/ddselectdocuments/';
 		
-		$output .= includeCss($widgetDir.'ddselectdocuments.css', 'html');
-		$output .= includeJs($pluginDir.'js/jquery-ui-1.10.3.min.js', 'html', 'jquery-ui', '1.10.3');
-		$output .= includeJs($widgetDir.'jquery.ddMultipleInput-1.2.min.js', 'html', 'jquery.ddMultipleInput', '1.2');
+		$output .= includeJsCss($widgetDir.'ddselectdocuments.css', 'html');
+		$output .= includeJsCss($pluginDir.'js/jquery-ui-1.10.3.min.js', 'html', 'jquery-ui', '1.10.3');
+		$output .= includeJsCss($widgetDir.'jquery.ddMultipleInput-1.2.min.js', 'html', 'jquery.ddMultipleInput', '1.2');
 		
 		$e->output($output);
 	}else if ($e->name == 'OnDocFormRender'){
