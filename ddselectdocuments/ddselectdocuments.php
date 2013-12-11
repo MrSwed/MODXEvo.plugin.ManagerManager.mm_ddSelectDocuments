@@ -16,6 +16,9 @@
  * @param $max {integer} - The largest number of elements that can be selected by user (“0” means selection without a limit). Default: 0.
  * @param $labelMask {string} - Template to be used while rendering elements of the document selection list. It is set as a string containing placeholders for document fields and TVs. Also, there is the additional placeholder “[+title+]” that is substituted with either “menutitle” (if defined) or “pagetitle”. Default: '[+title+] ([+id+])'.
  * 
+ * @event OnDocFormPrerender
+ * @event OnDocFormRender
+ * 
  * @link http://code.divandesign.biz/modx/mm_ddselectdocuments/1.1b
  * 
  * @copyright 2013, DivanDesign
@@ -23,11 +26,24 @@
  */
 
 function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentIds, $depth = 1, $filter = '', $max = 0, $labelMask = '[+title+] ([+id+])'){
-	global $modx, $mm_current_page;
+	if (empty($parentIds) || !useThisRule($roles, $templates)){return;}
+	
+	global $modx;
 	$e = &$modx->Event;
 	
-	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates) && !empty($parentIds)){
-		$output = '';
+	$output = '';
+	
+	if ($e->name == 'OnDocFormPrerender'){
+		$pluginDir = $modx->config['site_url'].'assets/plugins/managermanager/';
+		$widgetDir = $pluginDir.'widgets/ddselectdocuments/';
+		
+		$output .= includeCss($widgetDir.'ddselectdocuments.css', 'html');
+		$output .= includeJs($pluginDir.'js/jquery-ui-1.10.3.min.js', 'html', 'jquery-ui', '1.10.3');
+		$output .= includeJs($widgetDir.'jquery.ddMultipleInput-1.2.min.js', 'html', 'jquery.ddMultipleInput', '1.2');
+		
+		$e->output($output);
+	}else if ($e->name == 'OnDocFormRender'){
+		global $mm_current_page;
 		
 		$tvs = tplUseTvs($mm_current_page['template'], $tvs);
 		if ($tvs == false){return;}
@@ -99,18 +115,8 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 		$docs = ddGetDocs(explode(',', $parentIds), $filter, $depth, $labelMask, $fields);
 		
 		if (count($docs) == 0){return;}
-		
-		$pluginDir = $modx->config['site_url'].'assets/plugins/managermanager/';
-		$widgetDir = $pluginDir.'widgets/ddselectdocuments/';
 
 		$output .= "// ---------------- mm_ddSelectDocuments :: Begin ------------- \n";
-		//General functions
-		$output .= '
-'.includeCss($widgetDir.'ddselectdocuments.css').'
-'.includeJs($pluginDir.'js/jquery.ddTools-1.8.1.min.js', 'js', 'jquery.ddTools', '1.8.1').'
-'.includeJs($pluginDir.'js/jquery-ui-1.10.3.min.js', 'js', 'jquery-ui', '1.10.3').'
-'.includeJs($widgetDir.'jquery.ddMultipleInput-1.2.min.js', 'js', 'jquery.ddMultipleInput', '1.2').'
-		';
 
 		foreach ($tvs as $tv){
 			if (version_compare(PHP_VERSION, '5.4.0') >= 0){
