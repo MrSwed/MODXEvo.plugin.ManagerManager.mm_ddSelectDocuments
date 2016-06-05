@@ -11,7 +11,7 @@
  * @param $tvs {comma separated string} - TVs names that the widget is applied to. @required
  * @param $roles {comma separated string} - Roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
  * @param $templates {comma separated string} - Templates IDs for which the widget is applying (empty value means the widget is applying to all templates). Default: ''.
- * @param $parentIds {comma separated string} - Parent documents IDs. @required
+ * @param $parentIds {comma separated string} - Parent documents IDs. Default: '0'.
  * @param $depth {integer} - Depth of search. Default: 1.
  * @param $filter {separated string} - Filter clauses, separated by '&' between pairs and by '=' between keys and values. For example, 'template=15&published=1' means to choose the published documents with template id=15. Default: ''.
  * @param $max {integer} - The largest number of elements that can be selected by user (“0” means selection without a limit). Default: 0.
@@ -26,8 +26,8 @@
  * http://www.DivanDesign.biz
  */
 
-function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentIds, $depth = 1, $filter = '', $max = 0, $labelMask = '[+title+] ([+id+])'){
-	if (empty($parentIds) || !useThisRule($roles, $templates)){return;}
+function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentIds = '0', $depth = 1, $filter = '', $max = 0, $labelMask = '[+title+] ([+id+])'){
+	if (!useThisRule($roles, $templates)){return;}
 	
 	global $modx;
 	$e = &$modx->Event;
