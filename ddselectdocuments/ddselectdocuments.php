@@ -135,7 +135,7 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 		foreach ($tvs as $tv){
 			$output .=
 '
-$j("#tv'.$tv['id'].'").ddMultipleInput({source: '.$jsonDocs.', max: '.$max.'});
+$j("#tv'.$tv['id'].'").ddMultipleInput({source: '.$jsonDocs.', max: '.(int) $max.'});
 ';
 		}
 		
