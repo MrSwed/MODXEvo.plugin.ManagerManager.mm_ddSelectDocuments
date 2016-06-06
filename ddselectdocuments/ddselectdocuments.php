@@ -16,6 +16,7 @@
  * @param $filter {separated string} - Filter clauses, separated by '&' between pairs and by '=' between keys and values. For example, 'template=15&published=1' means to choose the published documents with template id=15. Default: ''.
  * @param $max {integer} - The largest number of elements that can be selected by user (“0” means selection without a limit). Default: 0.
  * @param $labelMask {string} - Template to be used while rendering elements of the document selection list. It is set as a string containing placeholders for document fields and TVs. Also, there is the additional placeholder “[+title+]” that is substituted with either “menutitle” (if defined) or “pagetitle”. Default: '[+title+] ([+id+])'.
+ * @param $allowDoubling {boolean} - Allows to select duplicates values. Default: false.
  * 
  * @event OnDocFormPrerender
  * @event OnDocFormRender
@@ -26,7 +27,7 @@
  * http://www.DivanDesign.biz
  */
 
-function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentIds = '0', $depth = 1, $filter = '', $max = 0, $labelMask = '[+title+] ([+id+])'){
+function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentIds = '0', $depth = 1, $filter = '', $max = 0, $labelMask = '[+title+] ([+id+])', $allowDoubling = false){
 	if (!useThisRule($roles, $templates)){return;}
 	
 	global $modx;
@@ -135,7 +136,7 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 		foreach ($tvs as $tv){
 			$output .=
 '
-$j("#tv'.$tv['id'].'").ddMultipleInput({source: '.$jsonDocs.', max: '.(int) $max.'});
+$j("#tv'.$tv['id'].'").ddMultipleInput({source: '.$jsonDocs.', max: '.(int) $max.', allowDoubling: '.(int) $allowDoubling.'});
 ';
 		}
 		
