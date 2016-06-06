@@ -1,7 +1,7 @@
 <?php
 /**
  * mm_ddSelectDocuments
- * @version 1.2.2 (2014-02-14)
+ * @version 1.3 (2016-06-06)
  * 
  * @desc A widget for ManagerManager that makes selection of documents ids easier.
  * 
@@ -21,10 +21,9 @@
  * @event OnDocFormPrerender
  * @event OnDocFormRender
  * 
- * @link http://code.divandesign.biz/modx/mm_ddselectdocuments/1.2.2
+ * @link http://code.divandesign.biz/modx/mm_ddselectdocuments/1.3
  * 
- * @copyright 2014, DivanDesign
- * http://www.DivanDesign.biz
+ * @copyright 2013–2016 DivanDesign {@link http://www.DivanDesign.biz }
  */
 
 function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentIds = '0', $depth = 1, $filter = '', $max = 0, $labelMask = '[+title+] ([+id+])', $allowDoubling = false){
@@ -131,7 +130,7 @@ function mm_ddSelectDocuments($tvs = '', $roles = '', $templates = '', $parentId
 			);
 		}
 		
-		$output .= "//---------- mm_ddSelectDocuments :: Begin -----\n";
+		$output .= '//---------- mm_ddSelectDocuments :: Begin -----'.PHP_EOL;
 		
 		foreach ($tvs as $tv){
 			$output .=
@@ -140,7 +139,7 @@ $j("#tv'.$tv['id'].'").ddMultipleInput({source: '.$jsonDocs.', max: '.(int) $max
 ';
 		}
 		
-		$output .= "//---------- mm_ddSelectDocuments :: End -----\n";
+		$output .= '//---------- mm_ddSelectDocuments :: End -----'.PHP_EOL;
 		
 		$e->output($output);
 	}
